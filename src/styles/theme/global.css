@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--background);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* Barra de rolagem */
+
+::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#E5E7EB;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:var(--primary-light);
+}
+
+/* Links */
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* Botões */
+
+button{
+    font-family:inherit;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    transition:var(--transition);
+}
+
+/* Inputs */
+
+input,
+select,
+textarea{
+    font-family:inherit;
+    border:1px solid var(--border);
+    outline:none;
+    transition:var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--primary-light);
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* Imagens */
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* Containers */
+
+.container{
+    width:100%;
+    max-width:1800px;
+    margin:auto;
+}
+
+/* Cards padrão */
+
+.card{
+    background:var(--surface);
+    border-radius:20px;
+    box-shadow:var(--shadow-md);
+    transition:var(--transition);
+    border:1px solid rgba(255,255,255,.4);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-lg);
+}
+
+/* Títulos */
+
+h1{
+    font-size:34px;
+    font-weight:800;
+}
+
+h2{
+    font-size:26px;
+    font-weight:700;
+}
+
+h3{
+    font-size:18px;
+    font-weight:700;
+}
+
+p{
+    color:var(--text-light);
+}
+
+/* Layout Principal */
+
+.mainLayout{
+    display:flex;
+    min-height:100vh;
+    background:var(--background);
+}
+
+/* Área principal */
+
+.content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:28px;
+    margin-left:280px;
+}
+
+/* Responsivo */
+
+@media(max-width:1200px){
+
+    .content{
+        margin-left:0;
+        padding:18px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    h1{
+        font-size:26px;
+    }
+
+    h2{
+        font-size:22px;
+    }
+
+}

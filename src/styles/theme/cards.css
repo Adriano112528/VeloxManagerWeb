@@ -1,0 +1,159 @@
+@import "./variables.css";
+
+/* ===========================
+   CARD PADRÃO
+=========================== */
+
+.card{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    box-shadow:var(--shadow-md);
+    transition:var(--transition);
+    width:100%;
+    overflow:hidden;
+    position:relative;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-lg);
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-bottom:22px;
+
+}
+
+.card-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.card-subtitle{
+
+    margin-top:5px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+/* ===========================
+   BODY
+=========================== */
+
+.card-body{
+
+    width:100%;
+
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.card-footer{
+
+    margin-top:22px;
+
+    padding-top:18px;
+
+    border-top:1px solid var(--border);
+
+}
+
+/* ===========================
+   BADGES
+=========================== */
+
+.badge{
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.badge-success{
+
+    background:#DCFCE7;
+
+    color:#15803D;
+
+}
+
+.badge-warning{
+
+    background:#FEF3C7;
+
+    color:#B45309;
+
+}
+
+.badge-danger{
+
+    background:#FEE2E2;
+
+    color:#B91C1C;
+
+}
+
+.badge-info{
+
+    background:#DBEAFE;
+
+    color:#1D4ED8;
+
+}
+
+/* ===========================
+   STATUS
+=========================== */
+
+.status-online{
+
+    color:#16A34A;
+
+    font-weight:bold;
+
+}
+
+.status-offline{
+
+    color:#DC2626;
+
+    font-weight:bold;
+
+}
+
+.status-warning{
+
+    color:#F59E0B;
+
+    font-weight:bold;
+
+}

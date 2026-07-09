@@ -1,0 +1,27 @@
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table th{
+
+    background:#F8FAFC;
+
+    padding:16px;
+
+    text-align:left;
+
+    color:#071B52;
+
+}
+
+.table td{
+
+    padding:16px;
+
+    border-bottom:1px solid #E5E7EB;
+
+}

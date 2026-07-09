@@ -1,0 +1,192 @@
+.header{
+    height:90px;
+    background:linear-gradient(90deg,#071B52,#0B2F8A);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 35px;
+    color:#FFF;
+    box-shadow:0 8px 20px rgba(0,0,0,.18);
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+/* ================= LEFT ================= */
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    min-width:360px;
+}
+
+.menu-button{
+    width:58px;
+    height:58px;
+    border:none;
+    border-radius:16px;
+    background:rgba(255,255,255,.08);
+    color:#FFF;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:26px;
+    transition:.3s;
+}
+
+.menu-button:hover{
+    background:#1565C0;
+}
+
+.header-title{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    color:#FFFFFF;
+}
+
+.header-title h1{
+    margin:0;
+    font-size:28px;
+    line-height:30px;
+    font-weight:700;
+    color:#FFFFFF;
+}
+
+.subtitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:6px;
+    font-size:15px;
+    color:#E8EEF8;
+    opacity:1;
+}
+
+.subtitle span{
+    color:#E8EEF8;
+}
+
+.separator{
+    opacity:.45;
+}
+
+/* ================= CENTER ================= */
+
+.header-center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    flex:1;
+}
+
+.status-card{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:12px;
+    background:rgba(255,255,255,.08);
+    color:#FFF;
+    transition:.3s;
+    font-size:15px;
+    font-weight:500;
+}
+
+.status-card:hover{
+    background:rgba(255,255,255,.15);
+}
+
+/* ================= RIGHT ================= */
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.notification{
+    position:relative;
+    font-size:28px;
+    cursor:pointer;
+    color:#FFF;
+}
+
+.badge{
+    position:absolute;
+    top:-6px;
+    right:-8px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#FF3B30;
+    color:#FFF;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.avatar{
+    font-size:60px;
+    color:#FFF;
+}
+
+.user-info{
+    display:flex;
+    flex-direction:column;
+    text-align:left;
+}
+
+.user-info strong{
+    font-size:20px;
+    color:#FFF;
+    line-height:22px;
+}
+
+.user-info span{
+    font-size:14px;
+    color:#DCE7FF;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media(max-width:1400px){
+
+.header-center{
+    display:none;
+}
+
+.header-title h1{
+    font-size:24px;
+}
+
+.subtitle{
+    font-size:13px;
+}
+
+}
+
+@media(max-width:900px){
+
+.header{
+    padding:0 15px;
+}
+
+.user-info{
+    display:none;
+}
+
+.header-title h1{
+    font-size:22px;
+}
+
+.subtitle{
+    display:none;
+}
+
+}

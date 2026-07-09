@@ -1,0 +1,66 @@
+:root{
+
+    /* ===== CORES ===== */
+
+    --primary:#0F2D73;
+    --primary-dark:#081D4F;
+    --primary-light:#2563EB;
+
+    --success:#22C55E;
+    --warning:#F59E0B;
+    --danger:#EF4444;
+    --info:#3B82F6;
+
+    --background:#EEF3FA;
+    --surface:#FFFFFF;
+    --surface-2:#F8FAFC;
+
+    --text:#1E293B;
+    --text-light:#64748B;
+
+    --border:#E2E8F0;
+
+    /* ===== SOMBRAS ===== */
+
+    --shadow-sm:0 2px 6px rgba(0,0,0,.05);
+    --shadow-md:0 8px 20px rgba(15,23,42,.08);
+    --shadow-lg:0 15px 35px rgba(15,23,42,.12);
+
+    /* ===== RADIUS ===== */
+
+    --radius-sm:8px;
+    --radius-md:14px;
+    --radius-lg:22px;
+    --radius-xl:30px;
+
+    /* ===== ESPAÇAMENTOS ===== */
+
+    --space-xs:6px;
+    --space-sm:12px;
+    --space-md:18px;
+    --space-lg:25px;
+    --space-xl:35px;
+
+    /* ===== TRANSIÇÕES ===== */
+
+    --transition:.25s ease;
+
+    /* ===== TAMANHOS ===== */
+
+    --sidebar-width:280px;
+    --header-height:78px;
+
+    /* ===== KPIs ===== */
+
+    --online:#22C55E;
+    --service:#2563EB;
+    --travel:#F59E0B;
+    --offline:#EF4444;
+
+    /* ===== GRADIENTES ===== */
+
+    --gradient-blue:linear-gradient(180deg,#123A8F,#081D4F);
+
+    --gradient-card:linear-gradient(135deg,#FFFFFF,#F6F9FF);
+
+}
