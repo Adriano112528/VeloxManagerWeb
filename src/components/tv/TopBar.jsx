@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 
-import DashboardService from "../../services/DashboardService";
-
 import arsLogo from "../../assets/logos/ars.png";
 import veloxLogo from "../../assets/logos/velox.png";
 
 export default function TopBar() {
 
   const [hora, setHora] = useState(new Date());
-
-  const [tecnicos, setTecnicos] = useState([]);
 
   useEffect(() => {
 
@@ -19,46 +15,31 @@ export default function TopBar() {
 
     },1000);
 
-    const unsubscribe =
-      DashboardService.ouvirTecnicos(setTecnicos);
-
-    return ()=>{
-
-      clearInterval(timer);
-
-      unsubscribe();
-
-    };
+    return ()=>clearInterval(timer);
 
   },[]);
 
-  const online =
-    tecnicos.filter(t=>t.online).length;
-
-  const offline =
-    tecnicos.length-online;
-
-  return(
+  return (
 
     <div
       style={{
 
+        height:"100%",
+
         background:
-        "linear-gradient(90deg,#071A49,#0F2D73,#071A49)",
+          "linear-gradient(90deg,#071B52,#10358D,#071B52)",
 
-        borderRadius:28,
-
-        padding:"20px 30px",
+        borderRadius:22,
 
         display:"grid",
 
-        gridTemplateColumns:"260px 1fr 320px",
+        gridTemplateColumns:"240px 1fr 260px",
 
         alignItems:"center",
 
-        border:"1px solid rgba(255,255,255,.08)",
+        padding:"0 25px",
 
-        boxShadow:"0 20px 50px rgba(0,0,0,.35)",
+        boxShadow:"0 15px 35px rgba(0,0,0,.35)",
 
       }}
     >
@@ -67,41 +48,27 @@ export default function TopBar() {
 
       <div
         style={{
-
           display:"flex",
-
           alignItems:"center",
-
           gap:18,
-
         }}
       >
 
         <img
-
           src={arsLogo}
-
           alt="ARS"
-
           style={{
-
-            width:75,
-
+            width:70,
           }}
-
         />
 
         <div>
 
           <div
             style={{
-
-              color:"#FFFFFF",
-
+              color:"#FFF",
               fontWeight:900,
-
-              fontSize:30,
-
+              fontSize:28,
             }}
           >
             ARS
@@ -109,14 +76,11 @@ export default function TopBar() {
 
           <div
             style={{
-
               color:"#CBD5E1",
-
-              fontSize:16,
-
+              fontSize:14,
             }}
           >
-            Technology
+            Tecnologia
           </div>
 
         </div>
@@ -127,80 +91,40 @@ export default function TopBar() {
 
       <div
         style={{
-
           textAlign:"center",
-
         }}
       >
 
         <div
           style={{
-
             color:"#FFFFFF",
-
-            fontSize:42,
-
+            fontSize:38,
             fontWeight:900,
-
             letterSpacing:1,
-
           }}
         >
-
           VELOX TELECOM
-
         </div>
 
         <div
           style={{
-
             color:"#CBD5E1",
-
-            marginTop:6,
-
-            fontSize:18,
-
+            marginTop:3,
+            fontSize:16,
           }}
         >
-
           CENTRO DE OPERAÇÕES
-
         </div>
 
         <div
           style={{
-
-            marginTop:12,
-
             color:"#22C55E",
-
-            fontSize:60,
-
+            fontSize:48,
             fontWeight:900,
-
-            letterSpacing:2,
-
+            marginTop:5,
           }}
         >
-
           {hora.toLocaleTimeString("pt-BR")}
-
-        </div>
-
-        <div
-          style={{
-
-            color:"#FFFFFF",
-
-            marginTop:6,
-
-            fontSize:18,
-
-          }}
-        >
-
-          {hora.toLocaleDateString("pt-BR")}
-
         </div>
 
       </div>
@@ -209,102 +133,36 @@ export default function TopBar() {
 
       <div
         style={{
-
           display:"flex",
-
-          justifyContent:"space-between",
-
+          justifyContent:"flex-end",
           alignItems:"center",
-
+          gap:20,
         }}
       >
 
-        <div>
-
-          <Status titulo="🟢 Firebase"/>
-          <Status titulo="🟢 GPS"/>
-          <Status titulo="🟢 Web"/>
-          <Status titulo="🟢 Android"/>
-
-          <div
-            style={{
-
-              marginTop:12,
-
-              color:"#FFFFFF",
-
-              fontSize:18,
-
-              fontWeight:700,
-
-            }}
-          >
-
-            👷 {online} Online
-
-          </div>
-
-          <div
-            style={{
-
-              color:"#CBD5E1",
-
-              fontSize:17,
-
-            }}
-          >
-
-            🔴 {offline} Offline
-
-          </div>
-
+        <div
+          style={{
+            color:"#22C55E",
+            fontWeight:800,
+            fontSize:18,
+            lineHeight:1.7,
+            textAlign:"right",
+          }}
+        >
+          🟢 FIREBASE<br/>
+          🛰️ GPS<br/>
+          🌐 WEB
         </div>
 
         <img
-
           src={veloxLogo}
-
           alt="Velox"
-
           style={{
-
             width:90,
-
           }}
-
         />
 
       </div>
-
-    </div>
-
-  );
-
-}
-
-function Status({
-
-  titulo,
-
-}){
-
-  return(
-
-    <div
-      style={{
-
-        color:"#22C55E",
-
-        fontWeight:700,
-
-        marginBottom:5,
-
-        fontSize:16,
-
-      }}
-    >
-
-      {titulo}
 
     </div>
 

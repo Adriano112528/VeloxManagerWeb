@@ -11,7 +11,6 @@ import {
 } from "react-leaflet";
 
 import { ref, onValue } from "firebase/database";
-
 import { realtimeDb } from "../../firebase";
 
 import L from "leaflet";
@@ -21,7 +20,6 @@ import "leaflet/dist/leaflet.css";
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
-
   iconRetinaUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
 
@@ -30,108 +28,69 @@ L.Icon.Default.mergeOptions({
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-
 });
 
 const iconeOnline = new L.Icon({
-
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 
-  iconSize: [34, 55],
-
-  iconAnchor: [17, 55],
-
+  iconSize: [36, 58],
+  iconAnchor: [18, 58],
 });
 
 const iconeOffline = new L.Icon({
-
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 
-  iconSize: [34, 55],
-
-  iconAnchor: [17, 55],
-
+  iconSize: [36, 58],
+  iconAnchor: [18, 58],
 });
 
 function obterIcone(tecnico) {
-
-  return tecnico.online
-    ? iconeOnline
-    : iconeOffline;
-
+  return tecnico.online ? iconeOnline : iconeOffline;
 }
 
 function AjustarMapa({ tecnicos }) {
-
   const map = useMap();
 
   useEffect(() => {
-
     const validos = tecnicos.filter(
-
-      t =>
-
-        t.latitude != null &&
-        t.longitude != null
-
+      (t) => t.latitude != null && t.longitude != null
     );
 
     if (validos.length === 0) return;
 
     if (validos.length === 1) {
-
       map.setView(
-
         [
-
           Number(validos[0].latitude),
-
           Number(validos[0].longitude),
-
         ],
-
         15
-
       );
 
       return;
-
     }
 
     const bounds = L.latLngBounds(
-
-      validos.map(
-
-        t => [
-
-          Number(t.latitude),
-
-          Number(t.longitude),
-
-        ]
-
-      )
-
+      validos.map((t) => [
+        Number(t.latitude),
+        Number(t.longitude),
+      ])
     );
 
     map.fitBounds(bounds, {
-
-      padding: [60, 60],
-
+      padding: [80, 80],
     });
-
   }, [map, tecnicos]);
 
   return null;
-
 }
 
 export default function DashboardMap() {
@@ -142,28 +101,20 @@ export default function DashboardMap() {
 
     const gpsRef = ref(realtimeDb, "gps");
 
-    const unsubscribe = onValue(gpsRef, snapshot => {
+    const unsubscribe = onValue(gpsRef, (snapshot) => {
 
       if (!snapshot.exists()) {
-
         setTecnicos([]);
-
         return;
-
       }
 
       const dados = snapshot.val();
 
       const lista = Object.entries(dados).map(
-
         ([id, tecnico]) => ({
-
           id,
-
           ...tecnico,
-
         })
-
       );
 
       setTecnicos(lista);
@@ -174,389 +125,250 @@ export default function DashboardMap() {
 
   }, []);
 
-  const online =
-    tecnicos.filter(t => t.online).length;
-
-  const offline =
-    tecnicos.length - online;
-
-  const gpsAtivo =
-    tecnicos.filter(
-      t => t.latitude && t.longitude
-    ).length;
-
-  const lista =
-    useMemo(
-
-      () =>
-
-        tecnicos.filter(
-
-          t =>
-
-            t.latitude &&
-            t.longitude
-
-        ),
-
-      [tecnicos]
-
-    );
-
-  return (
+  const lista = useMemo(
+    () =>
+      tecnicos.filter(
+        (t) => t.latitude && t.longitude
+      ),
+    [tecnicos]
+  );
+    return (
 
     <div
       style={{
+        width: "100%",
+        height: "100%",
 
-        height:"100%",
+        background: "#FFFFFF",
 
-        display:"flex",
+        borderRadius: 22,
 
-        flexDirection:"column",
+        overflow: "hidden",
 
-        background:"#FFF",
-
-        borderRadius:24,
-
-        overflow:"hidden",
-
+        boxShadow:
+          "0 15px 35px rgba(0,0,0,.18)",
       }}
     >
 
-      {/* CABEÇALHO */}
+      <MapContainer
 
-      <div
+        center={[-29.1680, -51.1800]}
+
+        zoom={13}
+
+        zoomControl={false}
+
         style={{
 
-          background:
-            "linear-gradient(90deg,#0F2D73,#163B94)",
+          width: "100%",
 
-          padding:20,
-
-          display:"flex",
-
-          justifyContent:"space-between",
-
-          alignItems:"center",
+          height: "100%",
 
         }}
-        >
-              <div>
 
-          <div
-            style={{
-              color:"#FFFFFF",
-              fontSize:32,
-              fontWeight:900,
-            }}
-          >
-            🛰️ MAPA OPERACIONAL
-          </div>
-
-          <div
-            style={{
-              color:"#CBD5E1",
-              marginTop:5,
-              fontSize:16,
-            }}
-          >
-            Monitoramento em Tempo Real
-          </div>
-
-        </div>
-
-        <div
-          style={{
-            display:"flex",
-            gap:14,
-          }}
-        >
-
-          <Indicador
-            titulo="🟢 Online"
-            valor={online}
-            cor="#22C55E"
-          />
-
-          <Indicador
-            titulo="🔴 Offline"
-            valor={offline}
-            cor="#EF4444"
-          />
-
-          <Indicador
-            titulo="📡 GPS"
-            valor={gpsAtivo}
-            cor="#2563EB"
-          />
-
-        </div>
-
-      </div>
-
-      {/* MAPA */}
-
-      <div
-        style={{
-          flex:1,
-        }}
       >
 
-        <MapContainer
-          center={[-29.1680,-51.1800]}
-          zoom={12}
-          style={{
-            width:"100%",
-            height:"100%",
-          }}
-        >
+        <TileLayer
 
-          <TileLayer
-            attribution="© OpenStreetMap"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          attribution="© OpenStreetMap"
 
-          <AjustarMapa
-            tecnicos={lista}
-          />
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 
-          {lista.map((tec)=>(
+        />
 
-            <div key={tec.id}>
+        <AjustarMapa
 
-              <Circle
-                center={[
-                  Number(tec.latitude),
-                  Number(tec.longitude),
-                ]}
-                radius={100}
-                pathOptions={{
-                  color:
-                    tec.online
+          tecnicos={lista}
+
+        />
+
+        {lista.map((tec) => (
+
+          <div key={tec.id}>
+
+            <Circle
+
+              center={[
+
+                Number(tec.latitude),
+
+                Number(tec.longitude),
+
+              ]}
+
+              radius={100}
+
+              pathOptions={{
+
+                color:
+                  tec.online
                     ? "#22C55E"
                     : "#EF4444",
 
-                  fillColor:
-                    tec.online
+                fillColor:
+                  tec.online
                     ? "#22C55E"
                     : "#EF4444",
 
-                  fillOpacity:.18,
+                fillOpacity: .20,
 
-                  weight:2,
-                }}
-              />
+                weight: 2,
 
-              <Marker
-                position={[
-                  Number(tec.latitude),
-                  Number(tec.longitude),
-                ]}
-                icon={obterIcone(tec)}
+              }}
+
+            />
+
+            <Marker
+
+              position={[
+
+                Number(tec.latitude),
+
+                Number(tec.longitude),
+
+              ]}
+
+              icon={obterIcone(tec)}
+
+            >
+
+              <Tooltip
+
+                permanent
+
+                direction="top"
+
+                offset={[0,-38]}
+
               >
 
-                <Tooltip
-                  permanent
-                  direction="top"
-                  offset={[0,-40]}
+                <strong>
+
+                  {tec.nome}
+
+                </strong>
+
+              </Tooltip>
+
+              <Popup>
+
+                <div
+                  style={{
+                    minWidth: 260,
+                  }}
                 >
-                  <strong>
-                    {tec.nome}
-                  </strong>
-                </Tooltip>
 
-                <Popup>
-
-                  <div
+                  <h3
                     style={{
-                      minWidth:260,
+                      margin:0,
+                      color:"#0F2D73",
                     }}
                   >
 
-                    <h3
-                      style={{
-                        margin:0,
-                        color:"#0F2D73",
-                      }}
-                    >
-                      👷 {tec.nome}
-                    </h3>
+                    👷 {tec.nome}
 
-                    <hr/>
+                  </h3>
 
-                    <Linha
-                      titulo="Status"
-                      valor={tec.status}
-                    />
+                  <hr/>
+                                    <Linha
+                    titulo="Status"
+                    valor={tec.status || "Disponível"}
+                  />
 
-                    <Linha
-                      titulo="Online"
-                      valor={
-                        tec.online
+                  <Linha
+                    titulo="Online"
+                    valor={
+                      tec.online
                         ? "🟢 Sim"
                         : "🔴 Não"
-                      }
-                    />
+                    }
+                  />
 
-                    <Linha
-                      titulo="Equipe"
-                      valor={
-                        tec.equipe || "-"
-                      }
-                    />
-                                        <Linha
-                      titulo="Bateria"
-                      valor={`${tec.bateria || 0}%`}
-                    />
+                  <Linha
+                    titulo="Equipe"
+                    valor={tec.equipe || "-"}
+                  />
 
-                    <Linha
-                      titulo="Precisão"
-                      valor={`${tec.precisao || 0} m`}
-                    />
+                  <Linha
+                    titulo="Bateria"
+                    valor={`${tec.bateria || 0}%`}
+                  />
 
-                    <Linha
-                      titulo="Velocidade"
-                      valor={`${(
-                        Number(tec.velocidade || 0) * 3.6
-                      ).toFixed(1)} km/h`}
-                    />
+                  <Linha
+                    titulo="Precisão"
+                    valor={`${tec.precisao || 0} m`}
+                  />
 
-                    <Linha
-                      titulo="Última atualização"
-                      valor={
-                        tec.ultimaAtualizacao
-                          ? new Date(
-                              tec.ultimaAtualizacao
-                            ).toLocaleTimeString("pt-BR")
-                          : "--:--:--"
-                      }
-                    />
+                  <Linha
+                    titulo="Velocidade"
+                    valor={`${(
+                      Number(tec.velocidade || 0) * 3.6
+                    ).toFixed(1)} km/h`}
+                  />
 
-                  </div>
+                  <Linha
+                    titulo="Última atualização"
+                    valor={
+                      tec.ultimaAtualizacao
+                        ? new Date(
+                            tec.ultimaAtualizacao
+                          ).toLocaleTimeString("pt-BR")
+                        : "--:--:--"
+                    }
+                  />
+                  <Linha
+  titulo="Latitude"
+  valor={Number(tec.latitude).toFixed(6)}
+/>
 
-                </Popup>
+<Linha
+  titulo="Longitude"
+  valor={Number(tec.longitude).toFixed(6)}
+/>
+<div
+  style={{
+    marginTop: 18,
+  }}
+>
 
-              </Marker>
+  <a
+    href={`https://www.google.com/maps?q=${tec.latitude},${tec.longitude}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{
+      display: "block",
+      textAlign: "center",
+      background: "#0F2D73",
+      color: "#FFFFFF",
+      padding: "12px",
+      borderRadius: 10,
+      textDecoration: "none",
+      fontWeight: 800,
+      fontSize: 15,
+    }}
+  >
+    📍 Abrir no Google Maps
+  </a>
 
-            </div>
+</div>
 
-          ))}
+                </div>
 
-        </MapContainer>
+              </Popup>
 
-      </div>
+            </Marker>
 
-      {/* RODAPÉ */}
+          </div>
 
-      <div
-        style={{
-          background:"#F8FAFC",
-          padding:"12px 20px",
-          borderTop:"1px solid #E2E8F0",
-          display:"flex",
-          justifyContent:"space-between",
-          alignItems:"center",
-        }}
-      >
+        ))}
 
-        <div
-          style={{
-            color:"#64748B",
-            fontSize:15,
-          }}
-        >
-          📡 Atualização automática em tempo real
-        </div>
-
-        <div
-          style={{
-            color:"#16A34A",
-            fontWeight:"bold",
-            fontSize:15,
-          }}
-        >
-          ● Firebase Online
-        </div>
-
-      </div>
+      </MapContainer>
 
     </div>
 
   );
 
 }
-/* ==========================================
-   COMPONENTE INDICADOR
-========================================== */
-
-function Indicador({
-
-  titulo,
-  valor,
-  cor,
-
-}) {
-
-  return (
-
-    <div
-      style={{
-
-        background:"rgba(255,255,255,.12)",
-
-        padding:"10px 18px",
-
-        borderRadius:18,
-
-        border:`1px solid ${cor}`,
-
-        textAlign:"center",
-
-        minWidth:95,
-
-      }}
-    >
-
-      <div
-        style={{
-
-          color:"#E2E8F0",
-
-          fontSize:13,
-
-          fontWeight:700,
-
-        }}
-      >
-        {titulo}
-      </div>
-
-      <div
-        style={{
-
-          marginTop:5,
-
-          color:"#FFFFFF",
-
-          fontSize:24,
-
-          fontWeight:900,
-
-        }}
-      >
-        {valor}
-      </div>
-
-    </div>
-
-  );
-
-}
-
-/* ==========================================
-   COMPONENTE LINHA
-========================================== */
-
 function Linha({
 
   titulo,

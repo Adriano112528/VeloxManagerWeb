@@ -7,22 +7,24 @@ export default function TVMap() {
     <div
       style={{
 
+        width:"100%",
+        height:"100%",
+
         background:
-          "linear-gradient(180deg,#081F55,#0D2A6B)",
+          "linear-gradient(180deg,#081F55,#061945)",
 
-        borderRadius:28,
+        borderRadius:24,
 
-        padding:20,
+        overflow:"hidden",
 
         display:"flex",
 
         flexDirection:"column",
 
-        height:"100%",
-
-        boxShadow:"0 20px 45px rgba(0,0,0,.35)",
-
         border:"1px solid rgba(255,255,255,.08)",
+
+        boxShadow:
+          "0 18px 45px rgba(0,0,0,.35)",
 
       }}
     >
@@ -32,13 +34,18 @@ export default function TVMap() {
       <div
         style={{
 
+          height:70,
+
           display:"flex",
 
           justifyContent:"space-between",
 
           alignItems:"center",
 
-          marginBottom:18,
+          padding:"0 22px",
+
+          background:
+            "linear-gradient(90deg,#0B2F82,#123C99)",
 
         }}
       >
@@ -50,27 +57,31 @@ export default function TVMap() {
 
               color:"#FFFFFF",
 
-              fontSize:34,
+              fontSize:28,
 
               fontWeight:900,
 
             }}
           >
-            🛰️ MAPA OPERACIONAL
+
+            🛰 MAPA OPERACIONAL
+
           </div>
 
           <div
             style={{
 
-              color:"#B8C5E2",
+              color:"#D7E3FF",
 
-              marginTop:6,
+              marginTop:4,
 
-              fontSize:18,
+              fontSize:15,
 
             }}
           >
-            Localização em tempo real da equipe técnica
+
+            Localização em tempo real
+
           </div>
 
         </div>
@@ -78,52 +89,22 @@ export default function TVMap() {
         <div
           style={{
 
-            display:"flex",
+            background:"#22C55E",
 
-            gap:12,
+            color:"#FFF",
+
+            padding:"8px 18px",
+
+            borderRadius:50,
+
+            fontWeight:800,
+
+            fontSize:18,
 
           }}
         >
 
-          <div
-            style={{
-
-              background:"#16A34A",
-
-              color:"#FFF",
-
-              padding:"12px 22px",
-
-              borderRadius:40,
-
-              fontWeight:800,
-
-              fontSize:17,
-
-            }}
-          >
-            📡 GPS ONLINE
-          </div>
-
-          <div
-            style={{
-
-              background:"#2563EB",
-
-              color:"#FFF",
-
-              padding:"12px 22px",
-
-              borderRadius:40,
-
-              fontWeight:800,
-
-              fontSize:17,
-
-            }}
-          >
-            ⚡ TEMPO REAL
-          </div>
+            GPS ONLINE
 
         </div>
 
@@ -137,10 +118,6 @@ export default function TVMap() {
           flex:1,
 
           overflow:"hidden",
-
-          borderRadius:22,
-
-          background:"#FFFFFF",
 
         }}
       >
