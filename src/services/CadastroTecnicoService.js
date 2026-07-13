@@ -7,7 +7,11 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-import { db } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+
+import { db, auth } from "../firebase";
 
 const colecao = collection(db, "tecnicos");
 
@@ -17,7 +21,24 @@ const colecao = collection(db, "tecnicos");
 
 export async function cadastrarTecnico(dados) {
 
+  // Cria usuário no Firebase Authentication
+
+  const credenciais =
+    await createUserWithEmailAndPassword(
+
+      auth,
+
+      dados.email,
+
+      dados.senha
+
+    );
+
+  // Salva no Firestore
+
   return await addDoc(colecao, {
+
+    uid: credenciais.user.uid,
 
     nome: dados.nome,
 
@@ -47,6 +68,12 @@ export async function cadastrarTecnico(dados) {
 
     gps: false,
 
+    bateria: 0,
+
+    velocidade: 0,
+
+    precisao: 0,
+
     ultimaAtualizacao: serverTimestamp(),
 
     criadoEm: serverTimestamp(),
@@ -61,7 +88,8 @@ export async function cadastrarTecnico(dados) {
 
 export async function editarTecnico(id, dados) {
 
-  const referencia = doc(db, "tecnicos", id);
+  const referencia =
+    doc(db, "tecnicos", id);
 
   return await updateDoc(referencia, {
 
@@ -93,7 +121,8 @@ export async function editarTecnico(id, dados) {
 
 export async function excluirTecnico(id) {
 
-  const referencia = doc(db, "tecnicos", id);
+  const referencia =
+    doc(db, "tecnicos", id);
 
   return await deleteDoc(referencia);
 

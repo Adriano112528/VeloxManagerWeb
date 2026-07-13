@@ -13,6 +13,8 @@ import {
 import { ref, onValue } from "firebase/database";
 import { realtimeDb } from "../../firebase";
 
+import TecnicoPopup from "../TecnicoPopup";
+
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -20,6 +22,7 @@ import "leaflet/dist/leaflet.css";
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
+
   iconRetinaUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
 
@@ -28,123 +31,197 @@ L.Icon.Default.mergeOptions({
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+
 });
 
 const iconeOnline = new L.Icon({
+
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 
-  iconSize: [36, 58],
-  iconAnchor: [18, 58],
+  iconSize: [36,58],
+
+  iconAnchor: [18,58],
+
 });
 
 const iconeOffline = new L.Icon({
+
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
 
   shadowUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 
-  iconSize: [36, 58],
-  iconAnchor: [18, 58],
+  iconSize:[36,58],
+
+  iconAnchor:[18,58],
+
 });
 
-function obterIcone(tecnico) {
-  return tecnico.online ? iconeOnline : iconeOffline;
+function obterIcone(tecnico){
+
+  return tecnico.online
+
+    ? iconeOnline
+
+    : iconeOffline;
+
 }
 
-function AjustarMapa({ tecnicos }) {
+function AjustarMapa({tecnicos}){
+
   const map = useMap();
 
-  useEffect(() => {
+  useEffect(()=>{
+
     const validos = tecnicos.filter(
-      (t) => t.latitude != null && t.longitude != null
+
+      t=>t.latitude!=null && t.longitude!=null
+
     );
 
-    if (validos.length === 0) return;
+    if(validos.length===0) return;
 
-    if (validos.length === 1) {
+    if(validos.length===1){
+
       map.setView(
+
         [
+
           Number(validos[0].latitude),
-          Number(validos[0].longitude),
+
+          Number(validos[0].longitude)
+
         ],
+
         15
+
       );
 
       return;
+
     }
 
-    const bounds = L.latLngBounds(
-      validos.map((t) => [
-        Number(t.latitude),
-        Number(t.longitude),
-      ])
-    );
+    const bounds =
 
-    map.fitBounds(bounds, {
-      padding: [80, 80],
-    });
-  }, [map, tecnicos]);
+      L.latLngBounds(
 
-  return null;
-}
+        validos.map(t=>([
 
-export default function DashboardMap() {
+          Number(t.latitude),
 
-  const [tecnicos, setTecnicos] = useState([]);
+          Number(t.longitude),
 
-  useEffect(() => {
+        ]))
 
-    const gpsRef = ref(realtimeDb, "gps");
-
-    const unsubscribe = onValue(gpsRef, (snapshot) => {
-
-      if (!snapshot.exists()) {
-        setTecnicos([]);
-        return;
-      }
-
-      const dados = snapshot.val();
-
-      const lista = Object.entries(dados).map(
-        ([id, tecnico]) => ({
-          id,
-          ...tecnico,
-        })
       );
 
-      setTecnicos(lista);
+    map.fitBounds(
 
-    });
+      bounds,
 
-    return () => unsubscribe();
+      {
 
-  }, []);
+        padding:[80,80],
 
-  const lista = useMemo(
-    () =>
-      tecnicos.filter(
-        (t) => t.latitude && t.longitude
+      }
+
+    );
+
+  },[map,tecnicos]);
+
+  return null;
+
+}
+
+export default function DashboardMap(){
+
+  const [tecnicos,setTecnicos]=
+
+    useState([]);
+
+  useEffect(()=>{
+
+    const gpsRef=
+
+      ref(
+
+        realtimeDb,
+
+        "gps"
+
+      );
+
+    const unsubscribe=
+
+      onValue(
+
+        gpsRef,
+
+        snapshot=>{
+
+          if(!snapshot.exists()){
+
+            setTecnicos([]);
+
+            return;
+
+          }
+
+          const dados=
+
+            snapshot.val();
+
+          const lista=
+
+            Object.entries(dados).map(
+
+              ([id,tecnico])=>({
+
+                id,
+
+                ...tecnico,
+
+              })
+
+            );
+
+          setTecnicos(lista);
+
+        }
+
+      );
+
+    return ()=>unsubscribe();
+
+  },[]);
+
+  const lista=
+
+    useMemo(
+
+      ()=>tecnicos.filter(
+
+        t=>t.latitude && t.longitude
+
       ),
-    [tecnicos]
-  );
-    return (
+
+      [tecnicos]
+
+    );
+      return (
 
     <div
       style={{
         width: "100%",
         height: "100%",
-
         background: "#FFFFFF",
-
         borderRadius: 22,
-
         overflow: "hidden",
-
         boxShadow:
           "0 15px 35px rgba(0,0,0,.18)",
       }}
@@ -152,7 +229,7 @@ export default function DashboardMap() {
 
       <MapContainer
 
-        center={[-29.1680, -51.1800]}
+        center={[-29.1680,-51.1800]}
 
         zoom={13}
 
@@ -160,9 +237,9 @@ export default function DashboardMap() {
 
         style={{
 
-          width: "100%",
+          width:"100%",
 
-          height: "100%",
+          height:"100%",
 
         }}
 
@@ -182,247 +259,101 @@ export default function DashboardMap() {
 
         />
 
-        {lista.map((tec) => (
+        {
 
-          <div key={tec.id}>
+          lista.map((tec)=>(
 
-            <Circle
+            <div key={tec.id}>
 
-              center={[
+              <Circle
 
-                Number(tec.latitude),
+                center={[
 
-                Number(tec.longitude),
+                  Number(tec.latitude),
 
-              ]}
+                  Number(tec.longitude),
 
-              radius={100}
+                ]}
 
-              pathOptions={{
+                radius={100}
 
-                color:
-                  tec.online
-                    ? "#22C55E"
-                    : "#EF4444",
+                pathOptions={{
 
-                fillColor:
-                  tec.online
-                    ? "#22C55E"
-                    : "#EF4444",
+                  color:
 
-                fillOpacity: .20,
+                    tec.online
 
-                weight: 2,
+                      ? "#22C55E"
 
-              }}
+                      : "#EF4444",
 
-            />
+                  fillColor:
 
-            <Marker
+                    tec.online
 
-              position={[
+                      ? "#22C55E"
 
-                Number(tec.latitude),
+                      : "#EF4444",
 
-                Number(tec.longitude),
+                  fillOpacity:.20,
 
-              ]}
+                  weight:2,
 
-              icon={obterIcone(tec)}
+                }}
 
-            >
+              />
 
-              <Tooltip
+              <Marker
 
-                permanent
+                position={[
 
-                direction="top"
+                  Number(tec.latitude),
 
-                offset={[0,-38]}
+                  Number(tec.longitude),
+
+                ]}
+
+                icon={obterIcone(tec)}
 
               >
 
-                <strong>
+                <Tooltip
 
-                  {tec.nome}
+                  permanent
 
-                </strong>
+                  direction="top"
 
-              </Tooltip>
+                  offset={[0,-38]}
 
-              <Popup>
-
-                <div
-                  style={{
-                    minWidth: 260,
-                  }}
                 >
 
-                  <h3
-                    style={{
-                      margin:0,
-                      color:"#0F2D73",
-                    }}
-                  >
+                  <strong>
 
-                    👷 {tec.nome}
+                    {tec.nome}
 
-                  </h3>
+                  </strong>
 
-                  <hr/>
-                                    <Linha
-                    titulo="Status"
-                    valor={tec.status || "Disponível"}
+                </Tooltip>
+
+                <Popup>
+
+                  <TecnicoPopup
+
+                    tecnico={tec}
+
                   />
 
-                  <Linha
-                    titulo="Online"
-                    valor={
-                      tec.online
-                        ? "🟢 Sim"
-                        : "🔴 Não"
-                    }
-                  />
+                </Popup>
 
-                  <Linha
-                    titulo="Equipe"
-                    valor={tec.equipe || "-"}
-                  />
+              </Marker>
 
-                  <Linha
-                    titulo="Bateria"
-                    valor={`${tec.bateria || 0}%`}
-                  />
+            </div>
 
-                  <Linha
-                    titulo="Precisão"
-                    valor={`${tec.precisao || 0} m`}
-                  />
+          ))
 
-                  <Linha
-                    titulo="Velocidade"
-                    valor={`${(
-                      Number(tec.velocidade || 0) * 3.6
-                    ).toFixed(1)} km/h`}
-                  />
-
-                  <Linha
-                    titulo="Última atualização"
-                    valor={
-                      tec.ultimaAtualizacao
-                        ? new Date(
-                            tec.ultimaAtualizacao
-                          ).toLocaleTimeString("pt-BR")
-                        : "--:--:--"
-                    }
-                  />
-                  <Linha
-  titulo="Latitude"
-  valor={Number(tec.latitude).toFixed(6)}
-/>
-
-<Linha
-  titulo="Longitude"
-  valor={Number(tec.longitude).toFixed(6)}
-/>
-<div
-  style={{
-    marginTop: 18,
-  }}
->
-
-  <a
-    href={`https://www.google.com/maps?q=${tec.latitude},${tec.longitude}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    style={{
-      display: "block",
-      textAlign: "center",
-      background: "#0F2D73",
-      color: "#FFFFFF",
-      padding: "12px",
-      borderRadius: 10,
-      textDecoration: "none",
-      fontWeight: 800,
-      fontSize: 15,
-    }}
-  >
-    📍 Abrir no Google Maps
-  </a>
-
-</div>
-
-                </div>
-
-              </Popup>
-
-            </Marker>
-
-          </div>
-
-        ))}
+        }
 
       </MapContainer>
-
-    </div>
-
-  );
-
-}
-function Linha({
-
-  titulo,
-  valor,
-
-}) {
-
-  return (
-
-    <div
-      style={{
-
-        display:"flex",
-
-        justifyContent:"space-between",
-
-        alignItems:"center",
-
-        padding:"8px 0",
-
-        borderBottom:"1px solid #E5E7EB",
-
-      }}
-    >
-
-      <div
-        style={{
-
-          color:"#475569",
-
-          fontWeight:700,
-
-          fontSize:14,
-
-        }}
-      >
-        {titulo}
-      </div>
-
-      <div
-        style={{
-
-          color:"#0F172A",
-
-          fontWeight:800,
-
-          fontSize:14,
-
-          textAlign:"right",
-
-        }}
-      >
-        {valor}
-      </div>
 
     </div>
 
