@@ -9,6 +9,7 @@ import {
   Boxes,
   Settings,
   Menu,
+  MessageCircle,
 } from "lucide-react";
 
 const menu = [
@@ -41,6 +42,11 @@ const menu = [
     id: "tv",
     nome: "Painel TV",
     icone: <Tv size={24} />,
+  },
+  {
+    id: "comunicacao",
+    nome: "Comunicação",
+    icone: <MessageCircle size={24} />,
   },
   {
     id: "relatorios",

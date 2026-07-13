@@ -1,5 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import { AuthProvider } from "./auth/AuthContext";
+
+import ProtectedRoute from "./auth/ProtectedRoute";
+import Login from "./auth/Login";
+
 import MainLayout from "./layouts/MainLayout";
 import NOCTV from "./pages/NOCTV";
 
@@ -7,23 +12,44 @@ export default function App() {
 
   return (
 
-    <BrowserRouter>
+    <AuthProvider>
 
-      <Routes>
+      <BrowserRouter>
 
-        <Route
-          path="/"
-          element={<MainLayout />}
-        />
+        <Routes>
 
-        <Route
-          path="/tv"
-          element={<NOCTV />}
-        />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
 
-      </Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
 
-    </BrowserRouter>
+                <MainLayout />
+
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/tv"
+            element={
+              <ProtectedRoute>
+
+                <NOCTV />
+
+              </ProtectedRoute>
+            }
+          />
+
+        </Routes>
+
+      </BrowserRouter>
+
+    </AuthProvider>
 
   );
 

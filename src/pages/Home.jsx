@@ -3,6 +3,7 @@ import Tecnicos from "./Tecnicos";
 import NovoTecnico from "./NovoTecnico";
 import Servicos from "./Servicos";
 import TVPanel from "./TVPanel";
+import Comunicacao from "./Comunicacao";
 
 export default function Home({ pagina, setPagina }) {
 
@@ -52,6 +53,9 @@ export default function Home({ pagina, setPagina }) {
 
     case "tv":
       return <TVPanel />;
+
+    case "comunicacao":
+      return <Comunicacao />;
 
     case "relatorios":
       return (
